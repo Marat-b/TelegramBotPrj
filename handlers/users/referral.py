@@ -1,11 +1,12 @@
 from aiogram import types
 from aiogram.dispatcher.filters import Command
 
+from filters import IsMember
 from keyboards.inline.choise_invite import get_invite_code
 from loader import dp, bot
 
 
-@dp.message_handler(Command('referral'))
+@dp.message_handler(IsMember(), Command('referral'))
 async def referral(message: types.Message):
 	chat_id = message.from_user.id
 	bot_username = (await bot.get_me()).username

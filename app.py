@@ -24,7 +24,7 @@ async def on_startup(dp):
     print("Создаем таблицы")
     await db.gino.create_all()
     print('Добавляем админа')
-    # await comm.add_user(id = int(os.getenv("ADMIN_ID")), name = "")
+    await comm.add_user(id = int(os.getenv("ADMIN_ID")), name = "")
     
     print("Готово")
     await on_startup_notify(dp)
