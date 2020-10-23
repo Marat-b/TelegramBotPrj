@@ -9,6 +9,7 @@ PGUSER = str(os.getenv("PGUSER"))
 PGPASSWORD = str(os.getenv("PGPASSWORD"))
 DATABASE = str(os.getenv("DATABASE"))
 # DB_HOST = str(os.getenv("DB_HOST"))
+INVITE_CODE = str(os.getenv("INVITE_CODE"))
 
 admins = [
     os.getenv("ADMIN_ID"),

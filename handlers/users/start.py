@@ -18,14 +18,15 @@ async def bot_start(message: types.Message):
     print('IsMember member is admin={}'.format(member_chat.is_chat_admin()))
 
     if not refferal:
-        chat_id = message.from_user.id
+        # chat_id = message.from_user.id
         bot_username = (await bot.get_me()).username
-        print('chat_id = {}\nbot_username = {}\nreferral = {}'.format(chat_id, bot_username, refferal))
+        # print('chat_id = {}\nbot_username = {}\nreferral = {}'.format(chat_id, bot_username, refferal))
         text = f'Чтобы использовать этого бота введите код приглашения, либо пройдите по реферальной ссылке.'
         # \nРеферальная ссылка https://t.me/{bot_username}?start={chat_id}
         # await bot.send_message(chat_id, text)
-    
-        # await message.answer(text = 'Введите код приглашения', reply_markup = get_invite_code('invite'))
+        await message.answer(text = text)
+
+        await message.answer(text = 'Введите команду /invite для ввода кода приглашения:')
     else:
         user_id = message.from_user.id
         if int(refferal) != user_id:

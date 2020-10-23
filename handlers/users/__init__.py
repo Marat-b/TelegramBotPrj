@@ -1,5 +1,6 @@
 from .help import dp
 from .start import dp
+from .invite import dp
 from .referral import dp
 from .echo import dp
 
