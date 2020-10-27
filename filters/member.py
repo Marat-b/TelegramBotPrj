@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher.filters import BoundFilter
 
-from utils.db_api.quick_commands import select_user
+from utils.db_api.user_commands import select_user
 
 
 class IsMember(BoundFilter):

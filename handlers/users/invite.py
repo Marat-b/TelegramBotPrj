@@ -6,7 +6,7 @@ from data.config import INVITE_CODE
 from filters import IsNotMember, IsMember
 from loader import dp
 from states.invite_state import InviteState
-from utils.db_api import quick_commands as comm
+from utils.db_api import user_commands as comm
 
 
 @dp.message_handler(Command('invite'), IsNotMember())

@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.builtin import CommandStart
 
 from keyboards.inline.choise_invite import get_invite_code
 from loader import dp, bot
-from utils.db_api import quick_commands as comm
+from utils.db_api import user_commands as comm
 
 
 @dp.message_handler(CommandStart())
