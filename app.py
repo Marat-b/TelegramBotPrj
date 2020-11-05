@@ -26,10 +26,27 @@ async def on_startup(dp):
     print('Добавляем админа')
     await comm.add_user(id = int(os.getenv("ADMIN_ID")), name = "")
     # for testing
-    await product_commands.add_product(name = 'Картошка', description = 'Богатая крахмалом', price = 10.23)
-    await product_commands.add_product(name = 'Крыжовник', description = 'Богатая пектином', price = 20.23)
-    await product_commands.add_product(name = 'Мёд', description = 'Богатый сахаром', price = 100.2367)
-    await product_commands.add_product(name = 'Капуста', description = 'Богатый зеленью', price = 100.2367)
+    await product_commands.add_product(name = 'Картошка', description = 'Богатая крахмалом',
+                                       photo = 'AgACAgIAAxkBAAIEYV-YWqKEl2sJp6HbXzidUAcXf85fAAKIrzEbaCvJSIgliXTciiDAAAFMEJguAAMBAAMCAAN5AAMfVwIAARsE',
+                                       price = 10.23)
+    await product_commands.add_product(name = 'Крыжовник', description = 'Богатая пектином',
+                                       photo = 'AgACAgIAAxkBAAIEYV-YWqKEl2sJp6HbXzidUAcXf85fAAKIrzEbaCvJSIgliXTciiDAAAFMEJguAAMBAAMCAAN5AAMfVwIAARsE',
+                                       price = 20.23)
+    await product_commands.add_product(name = 'Мёд', description = 'Богатый сахаром',
+                                       photo = 'AgACAgIAAxkBAAIEYV-YWqKEl2sJp6HbXzidUAcXf85fAAKIrzEbaCvJSIgliXTciiDAAAFMEJguAAMBAAMCAAN5AAMfVwIAARsE',
+                                       price = 100.2367)
+    await product_commands.add_product(name = 'Капуста', description = 'Богатый зеленью',
+                                       photo = 'AgACAgIAAxkBAAIEgl-cJPKM6H686VsxViYTuhO-WFouAAKOsDEbNnngSKGA8l32kdtNg00SlS4AAwEAAwIAA3kAA0PoBQABGwQ',
+                                       price = 100.2367)
+    await product_commands.add_product(name = 'Potato', description = 'Very delicious',
+                                       photo = 'AgACAgIAAxkBAAIEYV-YWqKEl2sJp6HbXzidUAcXf85fAAKIrzEbaCvJSIgliXTciiDAAAFMEJguAAMBAAMCAAN5AAMfVwIAARsE',
+                                       price = 10.23)
+    await product_commands.add_product(name = 'Parrot', description = 'Very delicious',
+                                       photo = 'AgACAgIAAxkBAAIE_1-dkhSIWcZ7teRpcAr0e0YivhWIAAIfsTEbQWPoSIZCTMaj_8VOGLNFmC4AAwEAAwIAA20AA494AgABGwQ',
+                                       price = 10.23)
+    await product_commands.add_product(name = 'Popcorn', description = 'Very delicious',
+                                       photo = 'AAMCAgADGQEAAgURX52apRtyDZfGmO58Qd_zX-0am_kAAp0JAAJBY-hIyCaG5nZ2iHantqeZLgADAQAHbQAD4BYAAhsE',
+                                       price = 10.23)
 
     print("Готово")
     await on_startup_notify(dp)

@@ -9,7 +9,7 @@ class Product(BaseModel):
 	name = Column(String(50))
 	description = Column(String(100))
 	# price = Column(Numeric(scale = 2, asdecimal = True, decimal_return_scale = 2))
+	photo = Column(String(100))
 	price = Column(Float)
-	photo = Column(LargeBinary)
 	
 	query: sql.Select

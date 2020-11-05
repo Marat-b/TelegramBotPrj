@@ -1,25 +1,42 @@
 import os
+import re
 
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
 
+from filters import IsNotMember, IsMember
 from keyboards.inline.choise_invite import get_invite_code
 from loader import dp, bot
 from utils.db_api import user_commands as comm
+from utils.db_api.product_commands import get_product_by_itemid
+from utils.db_api.user_commands import select_user
 
 
-@dp.message_handler(CommandStart())
+@dp.message_handler(IsMember(), CommandStart(deep_link = re.compile('.+?')))
+async def param_product(message: types.Message):
+    item_id = message.get_args()
+    print('param_product -> item_id={}'.format(item_id))
+    product = await get_product_by_itemid(int(item_id))
+    await message.answer_photo(photo = product.photo,
+                               caption = f'Наименование = {product.name}\nОписание = {product.description}\nЦена = '
+                                         f'{product.price}')
+
+
+@dp.message_handler(IsNotMember(), CommandStart())
 async def bot_start(message: types.Message):
     # await message.answer(f'Привет, {message.from_user.full_name}!')
-
+    
     refferal = message.get_args()
     print('referral = {}'.format(refferal))
     # if refferal == 'not_user':
     #     return
     member_chat = await message.chat.get_member(message.from_user.id)
-    print('IsMember member is admin={}'.format(member_chat.is_chat_admin()))
-
+    print('IsMember member is admin={}, message.from_user.id={}'.format(member_chat.is_chat_admin(),
+                                                                        str(message.from_user.id)))
+    
     if not refferal or refferal == 'not_user':
+        member_db = await select_user(message.from_user.id)
+        # if member_db is None:
         # chat_id = message.from_user.id
         bot_username = (await bot.get_me()).username
         # print('chat_id = {}\nbot_username = {}\nreferral = {}'.format(chat_id, bot_username, refferal))
@@ -27,7 +44,7 @@ async def bot_start(message: types.Message):
         # \nРеферальная ссылка https://t.me/{bot_username}?start={chat_id}
         # await bot.send_message(chat_id, text)
         await message.answer(text = text)
-    
+        
         await message.answer(text = 'Введите команду /invite для ввода кода приглашения:')
     else:
         user_id = message.from_user.id
