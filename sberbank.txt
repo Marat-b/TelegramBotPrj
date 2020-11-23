@@ -1,0 +1,3 @@
+https://3dsec.sberbank.ru/payment/rest/register.do?token=401643678:TEST:c451b98a-d404-417b-8f26-007424805bf6&orderNumber=961e34e7-e897-7d22-8b62-19650008f9da&amount=1&returnUrl=https://www.google.com&failUrl=https://www.google.com
+https://3dsec.sberbank.ru/payment/rest/getOrderStatusExtended.do?token=401643678:TEST:c451b98a-d404-417b-8f26-007424805bf6&orderNumber=961e34e7-e897-7d22-8b62-19650008f9da
+https://3dsec.sberbank.ru/demopayment/docsite/payform-1.html?token=401643678:TEST:c451b98a-d404-417b-8f26-007424805bf6&amp;ask=amount

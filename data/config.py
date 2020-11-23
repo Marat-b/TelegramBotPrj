@@ -28,3 +28,7 @@ redis = {
 
 POSTGRES_URI = f"postgresql://{PGUSER}:{PGPASSWORD}@{ip}/{DATABASE}"
 # POSTGRES_URI = f"postgresql://{PGUSER}:{PGPASSWORD}@{db_host}/{DATABASE}"
+
+QIWI_TOKEN = str(os.getenv("QIWI_TOKEN"))
+QIWI_KEY_PUBLIC = str(os.getenv("QIWI_KEY_PUBLIC"))
+QIWI_WALLET = str(os.getenv("QIWI_WALLET"))

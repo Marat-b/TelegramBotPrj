@@ -16,7 +16,7 @@ async def get_photo(message: Message):
 	# await message.reply(message.photo[-1].file_id)
 	for photo in message.photo:
 		print('get_photo -> photo.file_id={}, photo.file_size={}'.format(photo.file_id, photo.file_size))
-	file_id = message.photo[-1].file_id
+	file_id = message.photo[-2].file_id
 	file_info = await bot.get_file(file_id)
 	print('file_info.file_path={}'.format(file_info.file_path))
 	# AgACAgIAAxkBAAIEYV-YWqKEl2sJp6HbXzidUAcXf85fAAKIrzEbaCvJSIgliXTciiDAAAFMEJguAAMBAAMCAAN5AAMfVwIAARsE
@@ -29,7 +29,7 @@ async def get_photo(message: Message):
 
 @dp.message_handler(content_types = ContentType.DOCUMENT)
 async def get_document(message: Message):
-	print('get_document -> doc.file_id={}, doc.file_size={}, thumb.file_id={}, thumb.file_size={}'.format(
+	print('get_document -> doc.file_id={}\ndoc.file_size={}\nthumb.file_id={}\nthumb.file_size={}'.format(
 			message.document.file_id,
 			message.document.file_size,
 			message.document.thumb.file_id,

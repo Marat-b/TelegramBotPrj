@@ -1,8 +1,13 @@
+import urllib
 from typing import List
+from urllib import request
 
+import png
+import requests
 from aiogram import types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InlineQueryResultArticle, InlineQueryResultPhoto,\
 	InlineQueryResultCachedPhoto
+from aiogram.utils.markdown import hbold, bold
 
 from data.config import BOT_TOKEN
 from filters import IsNotMember, IsMember
@@ -50,13 +55,13 @@ async def not_member(query: types.InlineQuery):
 # 	)
 
 @dp.inline_handler(IsMember())  # , regexp = '^.+?[^\:\/\/].+'
-async def member2(query: types.InlineQuery):
+async def is_member(query: types.InlineQuery):
 	print('query.query = {}'.format(query.query.title()))
 	gathered_products = await get_products(query.query.title().upper())
 	# res.append(gathered_products)
 	# res = await get_products(gathered_products)
 	print('gathered_products={}'.format(gathered_products))
-	await query.answer(gathered_products, cache_time = 5, is_personal = True)  # , switch_pm_text = 'Private'
+	await query.answer(gathered_products, cache_time = 60, is_personal = True)  # , switch_pm_text = 'Private'
 
 
 # await bot.answer_inline_query(inline_query_id = query.id, results = gathered_products, cache_time = 5)
@@ -73,29 +78,48 @@ async def get_products(thing: str):
 	print('get_products -> products={}'.format(products))
 	for product in products:
 		photo_url = await bot.get_file(product.photo)
-		print('get_products -> photo_url={}'.format(photo_url.file_path))
+		print('get_products -> photo_url.file_path={}'.format(photo_url.file_path))
+		print(f"https://api.telegram.org/file/bot{BOT_TOKEN}/{photo_url.file_path}")
 		print('get_products -> product={}'.format(product))
-		res.append(types.InlineQueryResultArticle(id = str(product.id) + 'id', title = product.name,
+		# r=png.Reader(file=urllib.urlopen('http://www.schaik.com/pngsuite/basn0g02.png'))
+		# "https://st.depositphotos.com/1002351/2489/i/950/depositphotos_24894359-stock-photo-peeled-tangerine-or-mandarin-fruit.jpg",
+		# requests.get(		# 				                                          f"https://api.telegram.org/file/bot{BOT_TOKEN}/"
+		# 				                                          f"{photo_url.file_path}").json()
+		res.append(types.InlineQueryResultArticle(id = str(product.id), title = product.name,
 		                                          input_message_content = types.InputTextMessageContent(
-				                                          message_text = f'ID={product.id}'),  # 'product.photo',
-		                                          # disable_web_page_preview = True),
+				                                          message_text = f'ID={product.id}'),
+		                                          # reply_markup = get_photo_id(str(product.id)),
 		                                          # reply_markup = get_photo_id(product.id),
-		                                          thumb_url =
-		                                          # "https://st.depositphotos.com/1002351/2489/i/950/depositphotos_24894359-stock-photo-peeled-tangerine-or-mandarin-fruit.jpg",
-		                                          f"https://api.telegram.org/file/bot{BOT_TOKEN}/{photo_url.file_path}",
-		                                          description = f"{product.description}. Цена - {str(product.price)}",
-		                                          hide_url = True
+		                                          # thumb_url = 'http://www.schaik.com/pngsuite/basn0g02.png',
+		                                          thumb_url = f"https://api.telegram.org/file/bot{BOT_TOKEN}"
+		                                                      "/{photo_url.file_path}",
+		                                          description = f"{product.description}.\nЦена - "
+		                                                        f"{str(product.price)}"
+		                                          # hide_url = False,
+		                                          # photo_url = f"https://api.telegram.org/file/bot{BOT_TOKEN}
+		                                          # /{photo_url.file_path}"
+		                                          # photo_url = 'http://www.schaik.com/pngsuite/basn0g02.png'
 		                                          # thumb_width = 40,
 		                                          # thumb_height = 20
 		
 		                                          ))
-	# res.append(types.InlineQueryResultCachedPhoto(id = str(product.id), title = product.name,
-	#                                   caption = f"<b>{product.name}</b>\n{product.description}.\nЦена -"
-	#                                             f"<b>{str(product.price)}</b>",
-	#                                   #description = f"{product.description}. Цена - {str(product.price)}",
-	#                                   photo_file_id = product.photo,
-	#                                   parse_mode = 'HTML'
-	#                                   ))
+	# res.append(types.InlineQueryResultCachedPhoto(id = str(product.id),
+	#                                               title = product.name,
+	#                                               caption = f"<b>{product.name}</b>\n{product.description}.\nЦена -"
+	#                                                         f"<b>{str(product.price)}</b>",
+	#                                               # description = f"{product.description}. Цена - {str(product.price)}",
+	#                                               photo_file_id = product.photo,
+	#                                               parse_mode = 'HTML',
+	#                                               input_message_content = types.InputTextMessageContent(
+	# 		                                              message_text = f'ID={product.id}')
+	#                                               # reply_markup = InlineKeyboardMarkup(inline_keyboard = [
+	#                                               #     [
+	#                                               #         InlineKeyboardButton(text = 'Выбери чат',
+	#                                               #                              switch_inline_query = f"https://api.telegram.org/file/bot{BOT_TOKEN}/{photo_url.file_path}")
+	#                                               #     ]
+	#                                               # ]
+	#                                               #     )
+	#                                               ))
 	# f: types.InlineQueryResultCachedPhoto(id = str(product.id), title = product.name,
 	#                                       caption = product.name,
 	#                                       description = f"{product.description}. Цена - {str(product.price)}",
