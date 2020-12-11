@@ -12,5 +12,7 @@ async def bot_help(message: types.Message):
         'Список команд: ',
         '/start - Начать диалог',
         '/help - Получить справку'
+        '/referral - Сформировать реферальную ссылку'
+        '/product - Загрузка реквизитов товара в базу данных'
     ]
     await message.answer('\n'.join(text))

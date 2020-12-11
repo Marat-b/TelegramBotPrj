@@ -16,7 +16,6 @@ from loader import dp, bot
 from utils.db_api import product_commands as pc
 
 
-
 @dp.inline_handler(IsNotMember())
 async def not_member(query: types.InlineQuery):
 	user = query.from_user.id

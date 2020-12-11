@@ -23,7 +23,8 @@ async def invite_code(message: types.Message, state: FSMContext):
 		user_id = message.from_user.id
 		user_name = message.from_user.username
 		await comm.add_user(id = user_id, name = user_name)
-		await message.answer('Код приглашения верен. Вы добавлены ....')
+		await message.answer(f'Привет, {message.from_user.full_name}!\n'
+		                     'Код приглашения верен. Вы можете выбирать товар и совершать покупки.')
 	else:
 		await message.answer('Код приглашения не верен. Попробуйте ввести ещё раз после команды /invite')
 	# await message.answer(text = message.text)
