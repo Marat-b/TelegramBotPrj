@@ -3,6 +3,7 @@ import re
 
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
+from aiogram.utils.deep_linking import decode_payload
 from aiogram.utils.markdown import hbold, hitalic
 
 from filters import IsNotMember, IsMember
@@ -30,20 +31,20 @@ async def param_product(message: types.Message):
 async def bot_start(message: types.Message):
 	# await message.answer(f'Привет, {message.from_user.full_name}!')
 	
-	refferal = message.get_args()
-	print('referral = {}'.format(refferal))
-	# if refferal == 'not_user':
+	referral = decode_payload(message.get_args())
+	print('referral = {}'.format(referral))
+	# if referral == 'not_user':
 	#     return
 	member_chat = await message.chat.get_member(message.from_user.id)
 	print('IsMember member is admin={}, message.from_user.id={}'.format(member_chat.is_chat_admin(),
 	                                                                    str(message.from_user.id)))
 	
-	if not refferal or refferal == 'not_user':
+	if not referral or referral == 'not_user':
 		member_db = await select_user(message.from_user.id)
 		# if member_db is None:
 		# chat_id = message.from_user.id
 		bot_username = (await bot.get_me()).username
-		# print('chat_id = {}\nbot_username = {}\nreferral = {}'.format(chat_id, bot_username, refferal))
+		# print('chat_id = {}\nbot_username = {}\nreferral = {}'.format(chat_id, bot_username, referral))
 		text = f'Чтобы использовать этого бота введите код приглашения, либо пройдите по реферальной ссылке.'
 		# \nРеферальная ссылка https://t.me/{bot_username}?start={chat_id}
 		# await bot.send_message(chat_id, text)
@@ -52,9 +53,9 @@ async def bot_start(message: types.Message):
 		await message.answer(text = 'Введите команду /invite для ввода кода приглашения:')
 	else:
 		user_id = message.from_user.id
-		if int(refferal) != user_id:
+		if int(referral) != user_id:
 			await message.answer(f'Привет, {message.from_user.full_name}!')
 			await message.answer('Занесён по реферальной ссылке')
 			await comm.add_user(id = user_id, name = message.from_user.username)
-			if int(refferal) != int(os.getenv("ADMIN_ID")):
-				await comm.update_bonus(int(refferal))
+			if int(referral) != int(os.getenv("ADMIN_ID")):
+				await comm.update_bonus(int(referral))

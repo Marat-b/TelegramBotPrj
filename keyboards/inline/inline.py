@@ -7,7 +7,7 @@ import requests
 from aiogram import types
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InlineQueryResultArticle, InlineQueryResultPhoto,\
 	InlineQueryResultCachedPhoto
-from aiogram.utils.markdown import hbold, bold
+from aiogram.utils.markdown import hbold, bold, hcode
 
 from data.config import BOT_TOKEN
 from filters import IsNotMember, IsMember
@@ -15,14 +15,6 @@ from keyboards.inline.choice_photo_id import get_photo_id
 from loader import dp, bot
 from utils.db_api import product_commands as pc
 
-
-@dp.inline_handler(IsMember(), regexp = '^.+?\:\/\/.+')
-async def get_referral(query: types.InlineQuery):
-	print('get_referral -> query.query = {}'.format(query.query.title()))
-	print('get_referral -> query.from_user.id={}, query.id = {}'.format(query.from_user.id, query.id))
-
-
-# await query.answer(results =[],  switch_pm_text = query.query.title(), switch_pm_parameter = 'query')
 
 
 @dp.inline_handler(IsNotMember())
@@ -37,40 +29,18 @@ async def not_member(query: types.InlineQuery):
 	)
 
 
-# @dp.inline_handler(text = 'z')
-# async def member(query: types.InlineQuery):
-# 	print('query.query = {}'.format(query.query))
-# 	await query.answer(
-# 			results = [
-# 				types.InlineQueryResultArticle(
-# 						id = 'unknown',
-# 						title = 'Выбор товаров',
-# 						input_message_content = types.InputTextMessageContent(
-# 								message_text = 'Товар'
-# 						),
-#
-# 				)
-# 			],
-# 			cache_time = 5
-# 	)
-
 @dp.inline_handler(IsMember())  # , regexp = '^.+?[^\:\/\/].+'
 async def is_member(query: types.InlineQuery):
+	"""Gain product's information from bot inline query """
 	print('query.query = {}'.format(query.query.title()))
 	gathered_products = await get_products(query.query.title().upper())
-	# res.append(gathered_products)
-	# res = await get_products(gathered_products)
 	print('gathered_products={}'.format(gathered_products))
 	await query.answer(gathered_products, cache_time = 60, is_personal = True)  # , switch_pm_text = 'Private'
 
 
-# await bot.answer_inline_query(inline_query_id = query.id, results = gathered_products, cache_time = 5)
-
-
 async def get_products(thing: str):
-	# res: List[types.InlineQueryResultPhoto] = []
+	"""Building product's list"""
 	res = []
-	# res: List[types.InlineQueryResultArticle] = []
 	if len(thing) == 0:
 		print('get_products -> Quit')
 		return res
@@ -81,57 +51,11 @@ async def get_products(thing: str):
 		print('get_products -> photo_url.file_path={}'.format(photo_url.file_path))
 		print(f"https://api.telegram.org/file/bot{BOT_TOKEN}/{photo_url.file_path}")
 		print('get_products -> product={}'.format(product))
-		# r=png.Reader(file=urllib.urlopen('http://www.schaik.com/pngsuite/basn0g02.png'))
-		# "https://st.depositphotos.com/1002351/2489/i/950/depositphotos_24894359-stock-photo-peeled-tangerine-or-mandarin-fruit.jpg",
-		# requests.get(		# 				                                          f"https://api.telegram.org/file/bot{BOT_TOKEN}/"
-		# 				                                          f"{photo_url.file_path}").json()
 		res.append(types.InlineQueryResultArticle(id = str(product.id), title = product.name,
 		                                          input_message_content = types.InputTextMessageContent(
 				                                          message_text = f'ID={product.id}'),
-		                                          # reply_markup = get_photo_id(str(product.id)),
-		                                          # reply_markup = get_photo_id(product.id),
-		                                          # thumb_url = 'http://www.schaik.com/pngsuite/basn0g02.png',
-		                                          thumb_url = f"https://api.telegram.org/file/bot{BOT_TOKEN}"
-		                                                      "/{photo_url.file_path}",
 		                                          description = f"{product.description}.\nЦена - "
 		                                                        f"{str(product.price)}"
-		                                          # hide_url = False,
-		                                          # photo_url = f"https://api.telegram.org/file/bot{BOT_TOKEN}
-		                                          # /{photo_url.file_path}"
-		                                          # photo_url = 'http://www.schaik.com/pngsuite/basn0g02.png'
-		                                          # thumb_width = 40,
-		                                          # thumb_height = 20
-		
 		                                          ))
-	# res.append(types.InlineQueryResultCachedPhoto(id = str(product.id),
-	#                                               title = product.name,
-	#                                               caption = f"<b>{product.name}</b>\n{product.description}.\nЦена -"
-	#                                                         f"<b>{str(product.price)}</b>",
-	#                                               # description = f"{product.description}. Цена - {str(product.price)}",
-	#                                               photo_file_id = product.photo,
-	#                                               parse_mode = 'HTML',
-	#                                               input_message_content = types.InputTextMessageContent(
-	# 		                                              message_text = f'ID={product.id}')
-	#                                               # reply_markup = InlineKeyboardMarkup(inline_keyboard = [
-	#                                               #     [
-	#                                               #         InlineKeyboardButton(text = 'Выбери чат',
-	#                                               #                              switch_inline_query = f"https://api.telegram.org/file/bot{BOT_TOKEN}/{photo_url.file_path}")
-	#                                               #     ]
-	#                                               # ]
-	#                                               #     )
-	#                                               ))
-	# f: types.InlineQueryResultCachedPhoto(id = str(product.id), title = product.name,
-	#                                       caption = product.name,
-	#                                       description = f"{product.description}. Цена - {str(product.price)}",
-	#                                       # photo_url = product.photo,
-	#                                       # thumb_url = product.photo,
-	#                                       photo_file_id = product.photo
-	#                                       # photo_width = 10,
-	#                                       # photo_height = 10
-	#                                       )
-	# res.append(f)
-	# res.append({ 'type':'photo', id:str(product.id), 'title':product.name,
-	#              'photo_url':product.photo,
-	#              'thumb_url':product.photo })
 	print('get_products -> res={}'.format(res))
 	return res

@@ -1,5 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher.filters import Command
+from aiogram.utils.deep_linking import get_start_link
+from aiogram.utils.markdown import bold, hcode
 
 from filters import IsMember
 from keyboards.inline.choise_invite import get_invite_code
@@ -8,8 +10,7 @@ from loader import dp, bot
 
 @dp.message_handler(IsMember(), Command('referral'))
 async def referral(message: types.Message):
-	chat_id = message.from_user.id
-	bot_username = (await bot.get_me()).username
-	referral_link = f'https://t.me/{bot_username}?start={chat_id}'
-	await message.answer('Сформируйте ссылку и отправьте её выбранному пользователю', reply_markup = get_invite_code(
-			referral_link))
+	"""Making referral link"""
+	start_link_encoded = await get_start_link(message.from_user.id, encode = True)
+	# bot_username = (await bot.get_me()).username
+	await message.answer(f'Скопируйте ссылку и отправьте её выбранному пользователю <b>{hcode(start_link_encoded)}</b>')
