@@ -8,21 +8,19 @@ from utils.db_api.product_commands import add_product
 
 @dp.message_handler(Command('photo'))
 async def photo(message: types.Message):
-	await message.answer('Введи фото')
+	await message.answer('Загрузи фото')
 
 
 @dp.message_handler(content_types = ContentType.PHOTO)
 async def get_photo(message: Message):
 	# await message.reply(message.photo[-1].file_id)
-	for photo in message.photo:
-		print('get_photo -> photo.file_id={}, photo.file_size={}'.format(photo.file_id, photo.file_size))
-	file_id = message.photo[-2].file_id
+	# for photo in message.photo:
+	# 	print('get_photo -> photo.file_id={}, photo.file_size={}'.format(photo.file_id, photo.file_size))
+	file_id = message.photo[-1].file_id
 	file_info = await bot.get_file(file_id)
 	print('file_info.file_path={}'.format(file_info.file_path))
-	# AgACAgIAAxkBAAIEYV-YWqKEl2sJp6HbXzidUAcXf85fAAKIrzEbaCvJSIgliXTciiDAAAFMEJguAAMBAAMCAAN5AAMfVwIAARsE
-	# AgACAgIAAxkBAAIEgl - cJPKM6H686VsxViYTuhO - WFouAAKOsDEbNnngSKGA8l32kdtNg00SlS4AAwEAAwIAA3kAA0PoBQABGwQ
-	# downloaded_file = await message.photo[-1].download(destination = "image.jpg")
-	await add_product(name = 'name', description = 'description', photo = file_id, price = 11.11)
+	# await add_product(name = 'name', description = 'description', photo = file_id, price = 11.11)
+	await message.answer(f'ID файла:\n{file_id}')
 
 # with open("image.jpg", 'wb') as new_file:
 # 	new_file.write(downloaded_file)

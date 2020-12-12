@@ -23,7 +23,7 @@ async def param_product(message: types.Message):
 	product = await get_product_by_itemid(int(item_id))
 	await message.answer_photo(photo = product.photo,
 	                           caption = f'{hbold(product.name)}\n'
-	                                     f'{hitalic(product.description)}\nЦена = '
+	                                     f'{hitalic(product.description)}\n\nЦена = '
 	                                     f'{hbold(product.price)}',
 	                           reply_markup = choice_buy(item_id))
 
@@ -49,6 +49,7 @@ async def bot_start(message: types.Message):
 			await message.answer(f'Привет, {message.from_user.full_name}!')
 			await message.answer('Занесён по реферальной ссылке')
 			await message.answer('/help - помощь')
-			await comm.add_user(id = user_id, name = message.from_user.username)
-			if int(referral) != int(os.getenv("ADMIN_ID")):
-				await comm.update_bonus(int(referral))
+			await comm.add_user(user_id = user_id, username = message.from_user.username,
+			                    name = message.from_user.full_name)
+			# if int(referral) != int(os.getenv("ADMIN_ID")):
+			await comm.update_bonus(int(referral))

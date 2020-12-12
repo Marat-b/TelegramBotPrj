@@ -1,8 +1,11 @@
 import os
 
-from utils.db_api import db_gino, product_commands, purchase_commands
-from loader import db
-from utils.db_api import user_commands as comm
+import django
+
+
+# from utils.db_api import db_gino, product_commands, purchase_commands
+# from loader import db, bot
+# from utils.db_api import user_commands as comm
 
 
 async def on_startup(dp):
@@ -13,7 +16,7 @@ async def on_startup(dp):
 	
 	from utils.notify_admins import on_startup_notify
 	print("Подключаем БД")
-	await db_gino.on_startup(dp)
+	# await db_gino.on_startup(dp)
 	print("Готово")
 	
 	# print("Чистим базу")
@@ -55,7 +58,25 @@ async def on_startup(dp):
 	await on_startup_notify(dp)
 
 
+# await set_default_commands(dp)
+
+
+def setup_django():
+	os.environ.setdefault(
+			"DJANGO_SETTINGS_MODULE",
+			"django_project.django_project.settings"
+	)
+	os.environ.update({ 'DJANGO_ALLOW_ASYNC_UNSAFE':"true" })
+	django.setup()
+
+
+# async def on_shutdown(dp):
+# 	await bot.close()
+
+
 if __name__ == '__main__':
+	setup_django()
+	
 	from aiogram import executor
 	from handlers import dp
 	

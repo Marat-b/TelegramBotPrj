@@ -21,8 +21,9 @@ async def invite_code(message: types.Message, state: FSMContext):
 	invite_text = message.text
 	if invite_text.upper() == INVITE_CODE:
 		user_id = message.from_user.id
-		user_name = message.from_user.username
-		await comm.add_user(id = user_id, name = user_name)
+		username = message.from_user.username
+		name = message.from_user.full_name
+		await comm.add_user(user_id = user_id, username = username, name = name)
 		await message.answer(f'Привет, {message.from_user.full_name}!\n'
 		                     'Код приглашения верен. Вы можете выбирать товар и совершать покупки.')
 	else:

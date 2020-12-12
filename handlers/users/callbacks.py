@@ -54,31 +54,33 @@ async def purchase_amountquantity(message: types.Message, state: FSMContext):
 @dp.message_handler(state = PurchaseState.DeliveryAddress)
 async def purchase_shippingaddress(message: types.Message, state: FSMContext):
 	"""Purchase shipping"""
+	user_id = message.from_user.id
 	delivery_address = message.text
 	purchase = await state.get_data()
-	amount_quantity = purchase.get('amount_quantity')
+	quantity = purchase.get('amount_quantity')
 	product_id = purchase.get('product_id')
 	product = await get_product_by_itemid(itemid = int(product_id))
-	amount = round(product.price * int(amount_quantity), 2)
-	print(f'Quintity={amount_quantity}, DeliveryAddress={delivery_address}, product_id = {product_id}, Amount='
-	      f'{amount}')
-	purchase_id = await add_purchase(product_id = product_id, amount = int(amount_quantity), address = delivery_address)
+	cost = round(product.price * int(quantity), 2)
+	print(f'Quintity={quantity}, DeliveryAddress={delivery_address}, product_id = {product_id}, Amount='
+	      f'{product.price}')
+	purchase_id = await add_purchase(user_id = user_id, product_id = product_id, amount = product.price,
+	                                 quantity = quantity, address = delivery_address)
 	await state.update_data(purchase_id = purchase_id)
-	payment = Payment(amount = amount)
+	payment = Payment(amount = cost)
 	payment.create()
 	await state.update_data(payment = payment)
 	await message.answer(
-			f'Наименование товара: {hbold(product.name)}\nКоличество товара: {hbold(amount_quantity)} шт.\nАдрес '
+			f'Наименование товара: {hbold(product.name)}\nКоличество товара: {hbold(quantity)} шт.\nАдрес '
 			f'доставки:'
 			f' {hbold(delivery_address)}\n\nСумма к '
-			f"оплате:\t{hbold(amount)}\n\n"
+			f"оплате:\t{hbold(cost)}\n\n"
 			
-			f"Оплатите не менее {amount:.2f} по номеру телефона или по адресу\n"
+			f"Оплатите не менее {cost:.2f} по номеру телефона или по адресу\n"
 			f'{hlink(config.QIWI_WALLET, url = payment.invoice)}\n'
 			"И обязательно укажите ID платежа:\n"
 			f'{hcode(payment.id)}'
 			'\n\nПосле оплаты нажмите кнопку "Оплачено"',
-			reply_markup = choice_payed(str(amount)))
+			reply_markup = choice_payed(str(cost)))
 	await PurchaseState.Pay.set()
 
 
