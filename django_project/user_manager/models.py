@@ -1,5 +1,4 @@
 from django.db import models
-from jsonfield import JSONField
 
 
 class TimedBaseModel(models.Model):
@@ -20,7 +19,6 @@ class User(TimedBaseModel):
 	
 	name = models.CharField(verbose_name = "Имя пользователя", max_length = 100)
 	username = models.CharField(verbose_name = "Username Телеграм", max_length = 100, null = True)
-	# email = models.CharField(verbose_name = "Email", max_length = 100, null = True)
 	bonus = models.DecimalField(verbose_name = "Бонус", decimal_places = 2, max_digits = 8)
 	
 	def __str__(self):
@@ -52,11 +50,7 @@ class Purchase(TimedBaseModel):
 	product = models.ForeignKey(Product, verbose_name = "Идентификатор Товара", on_delete = models.CASCADE)
 	amount = models.DecimalField(verbose_name = "Стоимость", decimal_places = 2, max_digits = 8)
 	quantity = models.IntegerField(verbose_name = "Количество")
-	# purchase_time = models.DateTimeField(verbose_name = "Время покупки", auto_now_add = True)
 	shipping_address = models.CharField(verbose_name = "Адрес Доставки", max_length = 255, null = True)
-	# phone_number = models.CharField(verbose_name = "Номер телефона", max_length = 50)
-	# email = models.CharField(verbose_name = "Email", max_length = 100, null = True)
-	# receiver = models.CharField(verbose_name = "Имя получателя", max_length = 100, null = True)
 	payed = models.BooleanField(verbose_name = "Оплачено", default = False)
 	
 	def __str__(self):
