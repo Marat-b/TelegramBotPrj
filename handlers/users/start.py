@@ -31,13 +31,14 @@ async def param_product(message: types.Message):
 @dp.message_handler(IsNotMember(), CommandStart())
 async def bot_start(message: types.Message):
 	"""Referral's operation"""
-	referral = decode_payload(message.get_args())
-	print('referral = {}'.format(referral))
-	member_chat = await message.chat.get_member(message.from_user.id)
-	print('IsMember member is admin={}, message.from_user.id={}'.format(member_chat.is_chat_admin(),
-	                                                                    str(message.from_user.id)))
+	args = message.get_args()
+	print('args = {}'.format(args))
+	referral = None
+	if args and args != 'not_user':
+		referral = decode_payload(args)
+		print('referral = {}'.format(referral))
 	
-	if not referral or referral == 'not_user':
+	if not referral or args == 'not_user':
 		text = ['Чтобы использовать этого бота введите код приглашения, либо пройдите по реферальной ссылке.',
 		        'Введите команду /invite для ввода кода приглашения:']
 		# \nРеферальная ссылка https://t.me/{bot_username}?start={chat_id}
@@ -51,5 +52,4 @@ async def bot_start(message: types.Message):
 			await message.answer('/help - помощь')
 			await comm.add_user(user_id = user_id, username = message.from_user.username,
 			                    name = message.from_user.full_name)
-			# if int(referral) != int(os.getenv("ADMIN_ID")):
 			await comm.update_bonus(int(referral))

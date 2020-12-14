@@ -6,6 +6,7 @@ from aiogram.dispatcher.filters import CommandStart, Command
 from aiogram.types import ContentType, CallbackQuery
 
 from data.config import BOT_TOKEN
+from filters import IsAdmin
 from keyboards.inline.choice_photo_id import get_photo_id
 from keyboards.inline.choice_product import choice_product, callback_product
 from loader import dp, bot
@@ -13,28 +14,21 @@ from states.product_state import ProductState
 from utils.db_api.product_commands import get_product_by_itemid, add_product
 
 
-#
-# @dp.message_handler(text = 'Товар')
-# async def choice_product(message: types.Message):
-# 	await message.answer('Выбран товар...')
-
-
-# @dp.message_handler(regexp = '.+?\..+?')
 @dp.message_handler(regexp = '^ID\=\d+')
 async def get_photo(message: types.Message):
 	print('get_photo -> photo_id={}, item_id={}'.format(message.text, re.sub('^ID\=', '', message.text)))
 	item_id = re.sub('^ID\=', '', message.text)
 	# await message.delete_reply_markup()
 	await message.delete()
-	await message.answer('-', reply_markup = get_photo_id(str(item_id)), disable_notification = True)
+	await message.answer('~~~~~~~~~~', reply_markup = get_photo_id(str(item_id)), disable_notification = True)
 
 
-# await bot.send_photo(chat_id = message.chat.id,
-#                      photo = product.photo,
-#                      caption = "Product",
-#                      reply_markup = get_photo_id(str(item_id)))
+@dp.inline_handler(regexp = '^ID\=\d+')
+async def button_show_product(query: types.InlineQuery):
+	print('button_show_product -> done')
 
-@dp.message_handler(Command('product'))
+
+@dp.message_handler(IsAdmin(), Command('product'))
 async def product(message: types.Message):
 	print('product ->')
 	await message.answer('Ввод реквизитов товара:\n'

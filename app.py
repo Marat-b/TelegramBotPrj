@@ -15,9 +15,9 @@ async def on_startup(dp):
 	middlewares.setup(dp)
 	
 	from utils.notify_admins import on_startup_notify
-	print("Подключаем БД")
+	# print("Подключаем БД")
 	# await db_gino.on_startup(dp)
-	print("Готово")
+	# print("Готово")
 	
 	# print("Чистим базу")
 	# await db.gino.drop_all()
@@ -31,30 +31,8 @@ async def on_startup(dp):
 	# print('Создаём покупку')
 	# await purchase_commands.add_purchase(product_id = 1, amount = 1, address = '4343')
 	# # for testing
-	# await product_commands.add_product(name = 'Pizza', description = 'Богатая крахмалом',
-	#                                    photo = 'AgACAgIAAxkBAAIEYV-YWqKEl2sJp6HbXzidUAcXf85fAAKIrzEbaCvJSIgliXTciiDAAAFMEJguAAMBAAMCAAN5AAMfVwIAARsE',
-	#                                    price = 1.23)
-	# await product_commands.add_product(name = 'Popcorn', description = 'Богатая пектином',
-	#                                    photo = 'AgACAgIAAxkBAAIEYV-YWqKEl2sJp6HbXzidUAcXf85fAAKIrzEbaCvJSIgliXTciiDAAAFMEJguAAMBAAMCAAN5AAMfVwIAARsE',
-	#                                    price = 2.23)
-	# await product_commands.add_product(name = 'Honey', description = 'Богатый сахаром',
-	#                                    photo = 'AgACAgIAAxkBAAIEYV-YWqKEl2sJp6HbXzidUAcXf85fAAKIrzEbaCvJSIgliXTciiDAAAFMEJguAAMBAAMCAAN5AAMfVwIAARsE',
-	#                                    price = 1.2367)
-	# await product_commands.add_product(name = 'Pasta', description = 'Богатый зеленью',
-	#                                    photo = 'AgACAgIAAxkBAAIEgl-cJPKM6H686VsxViYTuhO-WFouAAKOsDEbNnngSKGA8l32kdtNg00SlS4AAwEAAwIAA3kAA0PoBQABGwQ',
-	#                                    price = 1.2367)
-	# await product_commands.add_product(name = 'Potato', description = 'Very delicious',
-	#                                    photo = 'AgACAgIAAxkBAAIEYV-YWqKEl2sJp6HbXzidUAcXf85fAAKIrzEbaCvJSIgliXTciiDAAAFMEJguAAMBAAMCAAN5AAMfVwIAARsE',
-	#                                    price = 1.23)
+	# print("Готово")
 	
-	# await product_commands.add_product(name = 'Parrot', description = 'Very delicious',
-	#                                    photo = 'AgACAgIAAxkBAAIE_1-dkhSIWcZ7teRpcAr0e0YivhWIAAIfsTEbQWPoSIZCTMaj_8VOGLNFmC4AAwEAAwIAA20AA494AgABGwQ',
-	#                                    price = 10.23)
-	# await product_commands.add_product(name = 'Popcorn', description = 'Very delicious',
-	#                                    photo = 'AAMCAgADGQEAAgURX52apRtyDZfGmO58Qd_zX-0am_kAAp0JAAJBY-hIyCaG5nZ2iHantqeZLgADAQAHbQAD4BYAAhsE',
-	#                                    price = 10.23)
-	
-	print("Готово")
 	await on_startup_notify(dp)
 
 
