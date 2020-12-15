@@ -68,16 +68,21 @@ async def product_photo(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state = ProductState.ProductPrice)
 async def product_photo(message: types.Message, state: FSMContext):
-	product_price = message.text
-	data = await state.get_data()
-	product_name = data.get('product_name')
-	product_description = data.get('product_description')
-	product_photo = data.get('product_photo')
-	await add_product(name = product_name, description = product_description, photo = product_photo,
-	                  price = float(product_price))
-	await state.finish()
-	print('product_photo -> state.finish')
-	await message.answer('Ввод данных закончен', reply_markup = choice_product)
+	try:
+		text = message.text
+		product_price = float(text)
+		data = await state.get_data()
+		product_name = data.get('product_name')
+		product_description = data.get('product_description')
+		product_photo = data.get('product_photo')
+		await add_product(name = product_name, description = product_description, photo = product_photo,
+						  price = product_price)
+		await state.finish()
+		print('product_photo -> state.finish')
+		await message.answer('Ввод данных закончен', reply_markup = choice_product)
+	except Exception:
+		await message.answer('Цена товара должно быть числом, повторите ввод:')
+		await ProductState.ProductPrice.set()
 
 
 @dp.callback_query_handler(text = 'button_product')

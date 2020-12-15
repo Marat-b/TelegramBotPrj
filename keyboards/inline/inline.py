@@ -1,18 +1,7 @@
-import urllib
-from typing import List
-from urllib import request
-
-import png
-import requests
 from aiogram import types
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InlineQueryResultArticle, InlineQueryResultPhoto,\
-	InlineQueryResultCachedPhoto
-from aiogram.utils.markdown import hbold, bold, hcode
 
-from data.config import BOT_TOKEN
 from filters import IsNotMember, IsMember
-from keyboards.inline.choice_photo_id import get_photo_id
-from loader import dp, bot
+from loader import dp
 from utils.db_api import product_commands as pc
 
 

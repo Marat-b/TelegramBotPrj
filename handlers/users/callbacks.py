@@ -47,7 +47,7 @@ async def purchase_amountquantity(message: types.Message, state: FSMContext):
 		await message.answer('Введите адрес доставки:')
 		await PurchaseState.DeliveryAddress.set()
 	else:
-		await message.answer('Количесто товара должно быть цифрой, повторите ввод:')
+		await message.answer('Количество товара должно быть цифрой, повторите ввод:')
 		await PurchaseState.AmountQuantity.set()
 
 
