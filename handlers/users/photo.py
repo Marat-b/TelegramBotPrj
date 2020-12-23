@@ -18,19 +18,6 @@ async def photo(message: types.Message):
 @dp.message_handler(content_types = ContentType.PHOTO)
 async def get_photo(message: Message):
 	file_id = message.photo[-1].file_id
-	# file_info = await bot.get_file(file_id)
-	# print('file_info.file_path={}'.format(file_info.file_path))
-	# await add_product(name = 'name', description = 'description', photo = file_id, price = 11.11)
-	# photo_url = await bot.get_file(file_id)
-	# downloaded = await bot.download_file(photo_url)
-	# downloaded.
-	# print(f'get_photo -> downloaded={downloaded}')
-	# print(f'get_photo -> downloaded.name={downloaded.name}')
-	# photo_url_full = f"https://api.telegram.org/file/bot{BOT_TOKEN}/{photo_url.file_path}"
-	# link = await photo_link(message.photo[-1])
-	# link = await photo_link(file_id)
-	# bot.session.get()
-	# print(f'get_photo -> photo_link={link}')
 	await message.answer(f'ID файла:\n{file_id}')
 
 
