@@ -16,7 +16,7 @@ class IsMember(BoundFilter):
 class IsNotMember(BoundFilter):
 
     async def check(self, message: types.Message) -> bool:
-        # print('IsNotMember -> message.from_user.id={}'.format(message.from_user.id))
+        print('IsNotMember -> message.from_user.id={}'.format(message.from_user.id))
         member_db = await select_user(message.from_user.id)
-        # print('IsNotMember -> member_db={}'.format(member_db))
-        return bool(member_db)
+        print('IsNotMember -> member_db={}'.format(bool(member_db)))
+        return not bool(member_db)

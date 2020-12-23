@@ -15,17 +15,17 @@ from utils.db_api.product_commands import get_product_by_itemid
 from utils.db_api.user_commands import select_user
 
 
-@dp.message_handler(IsMember(), CommandStart(deep_link = re.compile('.+?')))
-async def param_product(message: types.Message):
-	"""Product's shopping"""
-	item_id = message.get_args()
-	print('param_product -> item_id={}'.format(item_id))
-	product = await get_product_by_itemid(int(item_id))
-	await message.answer_photo(photo = product.photo,
-	                           caption = f'{hbold(product.name)}\n'
-	                                     f'{hitalic(product.description)}\n\nЦена = '
-	                                     f'{hbold(product.price)}',
-	                           reply_markup = choice_buy(item_id))
+# @dp.message_handler(IsMember(), CommandStart(deep_link = re.compile('.+?')))
+# async def param_product(message: types.Message):
+# 	"""Product's shopping"""
+# 	item_id = message.get_args()
+# 	print('param_product -> item_id={}'.format(item_id))
+# 	product = await get_product_by_itemid(int(item_id))
+# 	await message.answer_photo(photo = product.photo,
+# 	                           caption = f'{hbold(product.name)}\n'
+# 	                                     f'{hitalic(product.description)}\n\nЦена = '
+# 	                                     f'{hbold(product.price)}',
+# 	                           reply_markup = choice_buy(item_id))
 
 
 @dp.message_handler(IsNotMember(), CommandStart())

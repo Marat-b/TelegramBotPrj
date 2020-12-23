@@ -7,7 +7,7 @@ from aiogram.utils.markdown import hlink, hcode, bold, hbold
 from data import config
 from data.config import BOT_TOKEN
 from keyboards.inline.callback_buy import callback_buy
-from keyboards.inline.callback_photo import callback_photo
+# from keyboards.inline.callback_photo import callback_photo
 from keyboards.inline.choice_payed import choice_payed, callback_payed
 from loader import dp, bot
 from states.purchase_state import PurchaseState
@@ -16,24 +16,24 @@ from utils.db_api.purchase_commands import add_purchase, update_payed
 from utils.misc.qiwi import Payment, NotEnoughMoney, NoPaymentFound
 
 
-@dp.callback_query_handler(callback_photo.filter(button_name='show_product'))
-async def button_show_product(call: CallbackQuery, callback_data: dict):
-    # await call.answer(cache_time = 60)
-    item_id = callback_data.get('item_id')
-    # await call.message.delete()
-    print('button_show_product -> item_id={}'.format(item_id))
-    deep_link = await get_start_link(item_id)
-    await call.message.answer(text=f'Нажми ссылку для показа товара {deep_link}')
+# @dp.callback_query_handler(callback_photo.filter(button_name='show_product'))
+# async def button_show_product(call: CallbackQuery, callback_data: dict):
+#     # await call.answer(cache_time = 60)
+#     item_id = callback_data.get('item_id')
+#     # await call.message.delete()
+#     print('button_show_product -> item_id={}'.format(item_id))
+#     deep_link = await get_start_link(item_id)
+#     await call.message.answer(text=f'Нажми ссылку для показа товара {deep_link}')
 
 
-@dp.callback_query_handler(callback_buy.filter(button_name='button_buy'))
+@dp.callback_query_handler(callback_buy.filter(button_name = 'button_buy'))
 async def button_buy(call: CallbackQuery, callback_data: dict, state: FSMContext):
     """ Button 'button_buy' is pressed, we will start to choose a quantity of things"""
-    await call.answer(cache_time=60)
+    await call.answer(cache_time = 60)
     item_id = callback_data.get('item_id')
     # await call.message.delete()
     print('button_buy -> item_id={}'.format(item_id))
-    await state.update_data(product_id=item_id)
+    await state.update_data(product_id = item_id)
     await call.message.answer('Введите количество товара:')
     await PurchaseState.AmountQuantity.set()
 

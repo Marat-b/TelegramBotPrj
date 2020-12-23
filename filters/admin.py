@@ -12,4 +12,4 @@ class IsAdmin(BoundFilter):
         # for admin in admins:
         #     if str(message.from_user.id) == str(admin):
         #         is_admin = True
-        return admin
+        return bool(admin)

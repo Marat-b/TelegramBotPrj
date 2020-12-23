@@ -43,10 +43,10 @@ def update_bonus(user_id: int):
 
 
 @sync_to_async
-def is_admin(user_id: int):
+def is_admin(user_id: int) -> bool:
     """Check for administrator rights"""
     try:
-        user = User.objects.get(user_id=user_id)
+        user = User.objects.get(user_id = user_id)
         return user.supervisor
-    except RaiseError:
+    except Exception:
         return False

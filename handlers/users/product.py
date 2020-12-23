@@ -4,10 +4,11 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import CommandStart, Command
 from aiogram.types import ContentType, CallbackQuery
+from aiogram.utils.markdown import hbold, hitalic
 
 from data.config import BOT_TOKEN
 from filters import IsAdmin
-from keyboards.inline.choice_photo_id import get_photo_id
+from keyboards.inline.choice_buy import choice_buy
 from keyboards.inline.choice_product import choice_product, callback_product
 from loader import dp, bot
 from states.product_state import ProductState
@@ -16,16 +17,18 @@ from utils.db_api.product_commands import get_product_by_itemid, add_product
 
 @dp.message_handler(regexp = '^ID\=\d+')
 async def get_photo(message: types.Message):
-	print('get_photo -> photo_id={}, item_id={}'.format(message.text, re.sub('^ID\=', '', message.text)))
+	# print('get_photo -> photo_id={}, item_id={}'.format(message.text, re.sub('^ID\=', '', message.text)))
 	item_id = re.sub('^ID\=', '', message.text)
 	# await message.delete_reply_markup()
 	await message.delete()
-	await message.answer('~~~~~~~~~~', reply_markup = get_photo_id(str(item_id)), disable_notification = True)
-
-
-@dp.inline_handler(regexp = '^ID\=\d+')
-async def button_show_product(query: types.InlineQuery):
-	print('button_show_product -> done')
+	# await message.answer('~~~~~~~~~~', reply_markup = get_photo_id(str(item_id)), disable_notification = True)
+	
+	product = await get_product_by_itemid(int(item_id))
+	await message.answer_photo(photo = product.photo,
+	                           caption = f'{hbold(product.name)}\n'
+	                                     f'{hitalic(product.description)}\n\nЦена = '
+	                                     f'{hbold(product.price)}',
+	                           reply_markup = choice_buy(item_id))
 
 
 @dp.message_handler(IsAdmin(), Command('product'))
